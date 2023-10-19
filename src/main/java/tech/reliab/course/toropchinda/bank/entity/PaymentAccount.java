@@ -41,7 +41,8 @@ public class PaymentAccount {
     }
     @Override
     public String toString() {
-        return "Айди счета: " + id + "\n" +
+        return "Объект: денежный счет\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Айди счета: " + id + "\n" +
                 "Владелец: " + user.getFullName() + "\n" +
                 "Банк: " + bank.getName() + "\n" +
                 "Сумма на счете: " + sum + "\n" +

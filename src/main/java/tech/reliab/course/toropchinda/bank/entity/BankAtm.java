@@ -112,7 +112,8 @@ public class BankAtm {
     }
     @Override
     public String toString() {
-        return "Имя банкомата: " + this.name + "\n" +
+        return "Объект: банкомат\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Имя банкомата: " + this.name + "\n" +
                 "Айди банкомата: " + this.id + "\n" +
                 "Адрес: " + this.address + "\n" +
                 "Статус: " + this.statusToString() + "\n" +

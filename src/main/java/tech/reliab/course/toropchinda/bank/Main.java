@@ -5,6 +5,7 @@ import tech.reliab.course.toropchinda.bank.service.BankService;
 import tech.reliab.course.toropchinda.bank.service.impl.*;
 import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -44,7 +45,7 @@ public class Main {
 
         CreditAccountServiceImpl creditAccountService = new CreditAccountServiceImpl();
         CreditAccount creditAccount = creditAccountService.create(new CreditAccount(user, bank, new Date(120, 10, 5),
-                new Date(124, 5, 5), 20000, 1000, 15, employee, paymentAccount));
+                new Date(124, 5, 5), new BigDecimal(20000.123), 1000, 15.1234, employee, paymentAccount));
 
         userService.addBank(user, bank);
         userService.addCreditAccount(user, creditAccount);

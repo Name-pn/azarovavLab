@@ -102,7 +102,8 @@ public class BankOffice {
 
     @Override
     public String toString() {
-        return "Название офиса: " + this.name + "\n" +
+        return "Объект: офис\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Название офиса: " + this.name + "\n" +
                 "Айди: " + this.id + "\n" +
                 "Адрес офиса: " + this.address + "\n" +
                 "Офис работает: " + this.work + "\n" +

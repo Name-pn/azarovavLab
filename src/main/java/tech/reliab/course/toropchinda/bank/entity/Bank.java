@@ -78,7 +78,8 @@ public class Bank {
 
     @Override
     public String toString() {
-        return "Название банка: " + this.name + "\n" +
+        return "Объект: банк\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Название банка: " + this.name + "\n" +
                 "Айди банка: " + this.id + "\n" +
                 "Число офисов: " + this.numberOffices + "\n" +
                 "Число банкоматов: " + this.numberAtms + "\n" +

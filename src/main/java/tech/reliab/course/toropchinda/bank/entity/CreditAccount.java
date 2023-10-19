@@ -1,5 +1,6 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -11,9 +12,9 @@ public class CreditAccount {
     private Date dateStart;
     private Date dateFinish;
     private Integer months;
-    private Integer sum;
+    private BigDecimal sum;
     private Integer everyMonthPay;
-    private Integer interestRate;
+    private Double interestRate;
     private Employee employee;
     private PaymentAccount paymentAccount;
 
@@ -33,7 +34,7 @@ public class CreditAccount {
         return everyMonthPay;
     }
 
-    public Integer getInterestRate() {
+    public Double getInterestRate() {
         return interestRate;
     }
 
@@ -45,7 +46,7 @@ public class CreditAccount {
         return months;
     }
 
-    public Integer getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
 
@@ -61,12 +62,12 @@ public class CreditAccount {
         this.paymentAccount = paymentAccount;
     }
 
-    public void setInterestRate(Integer interestRate) {
+    public void setInterestRate(Double interestRate) {
         this.interestRate = interestRate;
     }
 
     public CreditAccount(Integer id, User user, String nameBank, Date dateStart, Date dateFinish,
-                         Integer sum, Integer everyMonthPay, Integer interestRate, Employee employee, PaymentAccount paymentAccount) {
+                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = id;
         this.user = user;
         this.nameBank = nameBank;
@@ -84,7 +85,7 @@ public class CreditAccount {
     }
 
     public CreditAccount(User user, Bank bank, Date dateStart, Date dateFinish,
-                         Integer sum, Integer everyMonthPay, Integer interestRate, Employee employee, PaymentAccount paymentAccount) {
+                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = idCurrent++;
         this.user = user;
         this.nameBank = bank.getName();
@@ -102,15 +103,16 @@ public class CreditAccount {
     }
 
     public String toString() {
-        return "Айди кредитного счета: " + this.id + "\n" +
+        return "Объект: кредитный счет\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Айди кредитного счета: " + this.id + "\n" +
                 "Владелец счета: " + this.user.getFullName() + "\n" +
                 "Банк счета: " + this.nameBank + "\n" +
                 "Дата открытия счета: " + this.dateStart + "\n" +
                 "Дата закрытия счета: " + this.dateFinish + "\n" +
                 "Число месяцев на которое взят кредит: " + this.months + "\n" +
-                "Сумма кредита: " + this.sum + "\n" +
+                "Сумма кредита: " + String.format("%.2f",this.sum) + "\n" +
                 "Ежемесячный платеж: " + this.everyMonthPay + "\n" +
-                "Процентная ставка: " + this.interestRate + "\n" +
+                "Процентная ставка: " + String.format("%.2f", this.interestRate) + "\n" +
                 "Работник выдавший кредит: " + employee.getFullName() + "\n" +
                 "Айди счета пользователя для оплаты: " + paymentAccount.getId() + "\n" +
                 "-----------------------------------------------------------------";

@@ -77,7 +77,8 @@ public class User {
 
     @Override
     public String toString() {
-        String res = "Айди пользователя: " + id + "\n" +
+        String res = "Объект: пользователь\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "Айди пользователя: " + id + "\n" +
                 "Имя пользователя: " + fullName + "\n" +
                 "День рождения: " + birthday + "\n" +
                 "Место работы: " + work + "\n" +

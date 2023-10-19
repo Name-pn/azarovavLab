@@ -92,7 +92,8 @@ public class Employee {
     }
     @Override
     public String toString() {
-        return "ФИО работника: " + fullName + "\n" +
+        return "Объект: работник\n" + "++++++++++++++++++++++++++++++++++++++\n" +
+                "ФИО работника: " + fullName + "\n" +
                 "Айди работника: " + id + "\n" +
                 "День рождения: " + birthday + "\n" +
                 "Должность: " + position + "\n" +

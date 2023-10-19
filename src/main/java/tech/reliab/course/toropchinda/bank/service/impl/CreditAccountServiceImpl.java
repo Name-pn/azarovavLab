@@ -27,7 +27,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
     public Boolean updateInterestRate(CreditAccount creditAccount, Bank bank) {
         if (creditAccount != null && bank != null) {
-            creditAccount.setInterestRate((int)(bank.getInterestRate() * Math.random()));
+            creditAccount.setInterestRate((bank.getInterestRate() * Math.random()));
             return true;
         }
         return false;
