@@ -1,5 +1,6 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Employee {
@@ -11,15 +12,15 @@ public class Employee {
     private Bank bank;
     private Boolean remoteWork;
     private BankOffice office;
-    private Boolean giveCredit;
-    private Integer salary;
+    private Boolean creditPossibility;
+    private BigDecimal salary;
 
     public Integer getId() {
         return id;
     }
 
-    public Boolean getGiveCredit() {
-        return giveCredit;
+    public Boolean getCreditPossibility() {
+        return creditPossibility;
     }
 
     public Bank getBank() {
@@ -38,7 +39,7 @@ public class Employee {
         return birthday;
     }
 
-    public Integer getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
@@ -50,7 +51,7 @@ public class Employee {
         this.position = position;
     }
 
-    public void setSalary(Integer salary) {
+    public void setSalary(BigDecimal  salary) {
         this.salary = salary;
     }
 
@@ -63,7 +64,7 @@ public class Employee {
     }
 
     public Employee(Integer id, String fullName, Date birthday, String position, Bank bank, Boolean remoteWork, BankOffice office,
-                    Boolean giveCredit, Integer salary) {
+                    Boolean giveCredit, BigDecimal  salary) {
         this.id = id;
         this.fullName = fullName;
         this.birthday = birthday;
@@ -71,19 +72,19 @@ public class Employee {
         this.bank = bank;
         this.remoteWork = remoteWork;
         this.office = office;
-        this.giveCredit = giveCredit;
+        this.creditPossibility = giveCredit;
         this.salary = salary;
     }
     public Employee(String fullName, Date birthday, String position, Bank bank, Boolean remoteWork, BankOffice office,
-                    Boolean giveCredit, Integer salary) {
-        this.id = idCurrent;
+                    Boolean giveCredit, BigDecimal  salary) {
+        this.id = idCurrent++;
         this.fullName = fullName;
         this.birthday = birthday;
         this.position = position;
         this.bank = bank;
         this.remoteWork = remoteWork;
         this.office = office;
-        this.giveCredit = giveCredit;
+        this.creditPossibility = giveCredit;
         this.salary = salary;
     }
 
@@ -100,7 +101,7 @@ public class Employee {
                 "Банк: " + bank.getName() + "\n" +
                 "Работает удаленно: " + remoteWork + "\n" +
                 "Офис: " + office.getName() + "\n" +
-                "Работник выдает кредиты: " + giveCredit + "\n" +
+                "Работник выдает кредиты: " + creditPossibility + "\n" +
                 "Зарплата: " + salary + "\n" +
                 "-----------------------------------\n";
     }

@@ -1,17 +1,20 @@
 package tech.reliab.course.toropchinda.bank.service.impl;
 
 import tech.reliab.course.toropchinda.bank.Main;
-import tech.reliab.course.toropchinda.bank.entity.Bank;
-import tech.reliab.course.toropchinda.bank.entity.CreditAccount;
-import tech.reliab.course.toropchinda.bank.entity.PaymentAccount;
+import tech.reliab.course.toropchinda.bank.entity.*;
 import tech.reliab.course.toropchinda.bank.service.CreditAccountService;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
-    public CreditAccount create(CreditAccount creditAccount) {
-        CreditAccount newCreditAccount = new CreditAccount(creditAccount.getId(), creditAccount.getUser(), creditAccount.getNameBank(), creditAccount.getDateStart(),
-                creditAccount.getDateFinish(), creditAccount.getSum(), creditAccount.getEveryMonthPay(),
-                creditAccount.getInterestRate(), creditAccount.getEmployee(), creditAccount.getPaymentAccount());
+    public CreditAccount create(User user, String bankName, Date startDate,
+                                Date finishDate, BigDecimal sum, BigDecimal everyMonthPay, BigDecimal interestRate, Employee
+                                employee, PaymentAccount paymentAccount) {
+        CreditAccount newCreditAccount = new CreditAccount(user, bankName, startDate,
+                finishDate, sum, everyMonthPay,
+                interestRate, employee, paymentAccount);
         return newCreditAccount;
     }
 
@@ -27,7 +30,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
     public Boolean updateInterestRate(CreditAccount creditAccount, Bank bank) {
         if (creditAccount != null && bank != null) {
-            creditAccount.setInterestRate((bank.getInterestRate() * Math.random()));
+            creditAccount.setInterestRate(BigDecimal.valueOf(bank.getInterestRate() * Math.random()));
             return true;
         }
         return false;

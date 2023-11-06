@@ -1,11 +1,13 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import java.math.BigDecimal;
+
 public class PaymentAccount {
     private static Integer idCurrent = 0;
     private Integer id;
     private User user;
     private Bank bank;
-    private Integer sum;
+    private BigDecimal sum;
 
     public Bank getBank() {
         return bank;
@@ -15,21 +17,21 @@ public class PaymentAccount {
         return user;
     }
 
-    public Integer getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
 
-    public void setSum(Integer sum) {
+    public void setSum(BigDecimal sum) {
         this.sum = sum;
     }
 
-    public PaymentAccount(Integer id, User user, Bank bank, Integer sum) {
+    public PaymentAccount(Integer id, User user, Bank bank, BigDecimal sum) {
         this.id = id;
         this.user = user;
         this.bank = bank;
         this.sum = sum;
     }
-    public PaymentAccount(User user, Bank bank, Integer sum) {
+    public PaymentAccount(User user, Bank bank, BigDecimal sum) {
         id = idCurrent++;
         this.user = user;
         this.bank = bank;

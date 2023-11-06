@@ -3,6 +3,8 @@ package tech.reliab.course.toropchinda.bank.entity;
 import tech.reliab.course.toropchinda.bank.service.AtmService;
 import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
 
+import java.math.BigDecimal;
+
 
 public class BankAtm {
     static private Integer idCurrent = 0;
@@ -15,11 +17,11 @@ public class BankAtm {
     private Employee employee;
     private Boolean giveWork;
     private Boolean getWork;
-    private Integer money;
-    private Integer maintenanceCost;
+    private BigDecimal money;
+    private BigDecimal maintenanceCost;
 
     public BankAtm(Integer id, Bank bank, BankOffice bankOffice, Employee employee, String name, AtmStatus status, Boolean giveWork, Boolean getWork,
-                   Integer money, Integer maintenanceCost) {
+                   BigDecimal money, BigDecimal maintenanceCost) {
         this.id = id;
         this.name = name;
         this.address = bankOffice.getAddress();
@@ -34,7 +36,7 @@ public class BankAtm {
     }
 
     public BankAtm(Bank bank, BankOffice bankOffice, Employee employee, String name, AtmStatus status, Boolean giveWork, Boolean getWork,
-                   Integer money, Integer maintenanceCost) {
+                   BigDecimal money, BigDecimal maintenanceCost) {
         id = idCurrent++;
         this.name = name;
         this.address = bankOffice.getAddress();
@@ -48,7 +50,12 @@ public class BankAtm {
         this.maintenanceCost = maintenanceCost;
     }
 
-    public void setMaintenanceCost(Integer maintenanceCost) {
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMaintenanceCost(BigDecimal maintenanceCost) {
         this.maintenanceCost = maintenanceCost;
     }
 
@@ -84,7 +91,7 @@ public class BankAtm {
         return employee;
     }
 
-    public Integer getMaintenanceCost() {
+    public BigDecimal getMaintenanceCost() {
         return maintenanceCost;
     }
 
@@ -133,11 +140,11 @@ public class BankAtm {
         this.status = status;
     }
 
-    public Integer getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 }

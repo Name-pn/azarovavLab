@@ -13,8 +13,8 @@ public class CreditAccount {
     private Date dateFinish;
     private Integer months;
     private BigDecimal sum;
-    private Integer everyMonthPay;
-    private Double interestRate;
+    private BigDecimal everyMonthPay;
+    private BigDecimal interestRate;
     private Employee employee;
     private PaymentAccount paymentAccount;
 
@@ -30,11 +30,11 @@ public class CreditAccount {
         return dateStart;
     }
 
-    public Integer getEveryMonthPay() {
+    public BigDecimal getEveryMonthPay() {
         return everyMonthPay;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
@@ -62,12 +62,12 @@ public class CreditAccount {
         this.paymentAccount = paymentAccount;
     }
 
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
     public CreditAccount(Integer id, User user, String nameBank, Date dateStart, Date dateFinish,
-                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
+                         BigDecimal sum, BigDecimal everyMonthPay, BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = id;
         this.user = user;
         this.nameBank = nameBank;
@@ -84,11 +84,11 @@ public class CreditAccount {
 
     }
 
-    public CreditAccount(User user, Bank bank, Date dateStart, Date dateFinish,
-                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
+    public CreditAccount(User user, String nameBank, Date dateStart, Date dateFinish,
+                         BigDecimal sum, BigDecimal everyMonthPay, BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = idCurrent++;
         this.user = user;
-        this.nameBank = bank.getName();
+        this.nameBank = nameBank;
         this.dateStart = dateStart;
         this.dateFinish = dateFinish;
         long elapsedms = dateFinish.getTime() - dateStart.getTime();

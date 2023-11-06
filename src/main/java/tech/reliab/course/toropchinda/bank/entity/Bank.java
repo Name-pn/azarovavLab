@@ -16,6 +16,18 @@ public class Bank {
     private Integer money;
     private Double interestRate;
 
+    public Bank(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+        this.numberOffices = 0;
+        this.numberAtms = 0;
+        this.numberEmployees = 0;
+        this.numberClients = 0;
+        this.rating = (int) (Math.random() * 101);
+        this.money = (int) (Math.random() * 1000000);
+        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+    }
+
     public Bank(String name) {
         this.id = idCurrent++;
         this.name = name;
@@ -26,6 +38,10 @@ public class Bank {
         this.rating = (int) (Math.random() * 101);
         this.money = (int) (Math.random() * 1000000);
         this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Integer getMoney() {

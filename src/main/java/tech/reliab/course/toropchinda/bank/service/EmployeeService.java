@@ -4,10 +4,19 @@ import tech.reliab.course.toropchinda.bank.entity.Bank;
 import tech.reliab.course.toropchinda.bank.entity.BankOffice;
 import tech.reliab.course.toropchinda.bank.entity.Employee;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 public interface EmployeeService {
-    public Employee create(Employee employee);
+    public Employee create(String fullName, Date birthday, String position, Bank bank, Boolean remoteWork,
+                           BankOffice bankOffice, Boolean creditPossibility, BigDecimal salary);
 
-    public Boolean updateWork(Employee employee, BankOffice bankOffice, Bank bank, String position, Integer salary);
+    public Boolean updateWork(Employee employee, BankOffice bankOffice, Bank bank, String position, BigDecimal salary);
 
+    public List<Employee> getAll();
+
+    public List<Employee> getWorkerList(Integer id);
 
 }

@@ -5,8 +5,14 @@ import tech.reliab.course.toropchinda.bank.entity.CreditAccount;
 import tech.reliab.course.toropchinda.bank.entity.PaymentAccount;
 import tech.reliab.course.toropchinda.bank.entity.User;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+
 public interface UserService {
-    public User create(User user);
+    public User create(String fullName, Date birthday, String work, BigDecimal salary, BigDecimal rating);
+
+    public Map<Integer, User> getMap();
 
     public Boolean addBank(User user, Bank bank);
     public Boolean deleteBank(User user, Bank bank);

@@ -1,5 +1,7 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import java.math.BigDecimal;
+
 public class BankOffice {
     private static Integer idCurrent = 0;
     private Integer id;
@@ -11,10 +13,10 @@ public class BankOffice {
     private Boolean giveCredit;
     private Boolean giveMoney;
     private Boolean getMoney;
-    private Integer money;
-    private Integer rentalPrice;
+    private BigDecimal money;
+    private BigDecimal rentalPrice;
 
-    public Integer getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
@@ -22,7 +24,7 @@ public class BankOffice {
         return id;
     }
 
-    public Boolean getGetMoney() {
+    public Boolean getIsCashDeposit() {
         return getMoney;
     }
 
@@ -46,7 +48,7 @@ public class BankOffice {
         return numberAtm;
     }
 
-    public Integer getRentalPrice() {
+    public BigDecimal getRentalPrice() {
         return rentalPrice;
     }
 
@@ -56,7 +58,7 @@ public class BankOffice {
 
     public BankOffice(Integer id, String name, String address, Boolean work, Boolean permissionAtm,
                       Integer numberAtm, Boolean giveCredit, Boolean giveMoney,
-                      Boolean getMoney, Integer money, Integer rentalPrice) {
+                      Boolean getMoney, BigDecimal money, BigDecimal rentalPrice) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -71,17 +73,17 @@ public class BankOffice {
 
     }
 
-    public void setRentalPrice(Integer rentalPrice) {
+    public void setRentalPrice(BigDecimal rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 
     public BankOffice(String name, String address, Boolean work, Boolean permissionAtm,
                       Integer numberAtm, Boolean giveCredit, Boolean giveMoney,
-                      Boolean getMoney, Integer money, Integer rentalPrice) {
+                      Boolean getMoney, BigDecimal money, BigDecimal rentalPrice) {
         this.id = idCurrent++;
         this.name = name;
         this.address = address;
@@ -94,6 +96,10 @@ public class BankOffice {
         this.money = money;
         this.rentalPrice = rentalPrice;
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {

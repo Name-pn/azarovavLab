@@ -6,12 +6,32 @@ import tech.reliab.course.toropchinda.bank.entity.BankOffice;
 import tech.reliab.course.toropchinda.bank.service.BankOfficeService;
 import tech.reliab.course.toropchinda.bank.utils.Constants;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class BankOfficeServiceImpl implements BankOfficeService {
+    Map<Integer, BankOffice> offices = new HashMap<>();
+
     @Override
-    public BankOffice create(BankOffice bankOffice) {
-        BankOffice newBankOffice = new BankOffice(bankOffice.getId(), bankOffice.getName(), bankOffice.getAddress(), bankOffice.getWork(),
-                bankOffice.getPermissionAtm(), bankOffice.getNumberAtm(), bankOffice.getGiveCredit(), bankOffice.getGiveMoney(),
-                bankOffice.getGetMoney(), bankOffice.getMoney(), bankOffice.getRentalPrice());
+    public List<BankOffice> getAll() {
+        return new ArrayList<BankOffice> (offices.values());
+    }
+
+    @Override
+    public BankOffice create(String address, Boolean isWork,
+                             Boolean permissionAtm, Integer numberAtm, Boolean isCreditPermission, Boolean isCashIssue,
+                             Boolean isCashDeposit, BigDecimal money, BigDecimal rentalPrice
+    ) {
+        String[] wordsAddress = address.split(" ");
+        String name = "Офис " + wordsAddress[0] + " " + wordsAddress[1] + " №";
+        BankOffice newBankOffice = new BankOffice(name, address, isWork,
+                permissionAtm, numberAtm, isCreditPermission, isCashIssue,
+                isCashDeposit, money, rentalPrice);
+        newBankOffice.setName(name + String.valueOf(newBankOffice.getId()));
+        offices.put(newBankOffice.getId(), newBankOffice);
         return newBankOffice;
     }
 
@@ -38,7 +58,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     @Override
     public Boolean updateAllMoney(BankOffice bankOffice, Bank bank) {
         if (bankOffice != null && bank != null) {
-            bankOffice.setMoney(bank.getMoney());
+            bankOffice.setMoney(BigDecimal.valueOf(bank.getMoney()));
             return true;
         }
         return false;
@@ -47,7 +67,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     @Override
     public Boolean updateRandRentalCost(BankOffice bankOffice) {
         if (bankOffice != null) {
-            bankOffice.setRentalPrice((int)(Constants.RENTAL_OFFICE_MAX_PRICE * Math.random()));
+            bankOffice.setRentalPrice(BigDecimal.valueOf(Constants.RENTAL_OFFICE_MAX_PRICE * Math.random()));
             return true;
         }
         return false;
