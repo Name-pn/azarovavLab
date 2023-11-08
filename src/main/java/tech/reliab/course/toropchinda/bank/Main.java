@@ -48,6 +48,7 @@ public class Main {
             BankAtm atm = atmService.create(banksArray.get(i / Constants.NUMBER_ATMS), office,
                     lst.get(((int)(Constants.NUMBER_EMPLOYEES_IN_OFFICE * Utils.rand()))), AtmStatus.WORK,
                     true, true, BigDecimal.valueOf(Constants.MAINTENANCE_COST_OF_ATM));
+            bankOfficeService.addAtm(office, atm);
             bankService.addAtm(banksArray.get(i / Constants.NUMBER_ATMS), atm);
 
         }
@@ -84,24 +85,49 @@ public class Main {
                 }
             }
         }
-
+        List<BankOffice> lstOffices = bankOfficeService.getAll();
         while (true) {
             System.out.print("Вас приветствует программа банкинга\n");
-            System.out.print("Для того, чтобы получить информацию по банку введите b <id>\n");
-            System.out.print("Для того, чтобы получить всю информацию о клиенте введите u <id>\n");
+            System.out.print("Для того, чтобы получить информацию по банку введите bank <id>\n");
+            System.out.print("Для того, чтобы получить всю информацию о клиенте введите user <id>\n");
+            System.out.print("Для того, чтобы получить всю информацию введите all\n");
             System.out.print("->");
             Scanner in = new Scanner(System.in);
             String command = in.next();
             switch (command) {
-                case ("b"):
+                case ("bank"):
                     Integer bankId = in.nextInt();
                     Map<Integer, Bank> map = bankService.getMap();
                     Bank bank = map.get(bankId);
                     System.out.print(bank);
                     break;
-                case ("u"):
+                case ("user"):
                     Integer userId = in.nextInt();
                     System.out.print(userService.getMap().get(userId));
+                    break;
+                case("all"):
+                    for (int i = 0; i < Constants.NUMBER_BANKS; i++) {
+                        System.out.print(lstBanks.get(i));
+
+                        for (int j = 0; j < Constants.NUMBER_OFFICES; j++) {
+                            System.out.print(bankService.getOffices(i).get(j));
+                            System.out.print(employeeService.getWorkerList(i));
+
+                        }
+                        for (int j = 0; j < Constants.NUMBER_USERS; j++) {
+                            List<User> lst = bankService.getUsers(i);
+                            for (User item : lst) {
+                                System.out.print(item);
+                                System.out.print("Денежные счета: ");
+                                for (PaymentAccount itemAccount : item.getPaymentAccounts())
+                                    System.out.print(itemAccount);
+                                System.out.print("Кредитные счета: ");
+                                for (CreditAccount itemAccount : item.getCreditAccounts())
+                                    System.out.print(itemAccount);
+                            }
+                        }
+
+                    }
                     break;
                 default:
                     System.out.print("Не корректный ввод\n");

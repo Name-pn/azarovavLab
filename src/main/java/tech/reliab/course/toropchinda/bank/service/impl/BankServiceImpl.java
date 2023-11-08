@@ -18,6 +18,16 @@ public class BankServiceImpl implements BankService {
     private UserService userService;
 
     @Override
+    public List<BankOffice> getOffices(Integer bankId) {
+        return officesByBankIdTable.get(bankId);
+    }
+
+    @Override
+    public List<User> getUsers(Integer bankId) {
+        return usersByBankIdTable.get(bankId);
+    }
+
+    @Override
     public Map<Integer, Bank> getMap() {
         return banksTable;
     }

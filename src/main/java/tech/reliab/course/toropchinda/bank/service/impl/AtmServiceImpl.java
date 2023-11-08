@@ -10,8 +10,16 @@ import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
 import tech.reliab.course.toropchinda.bank.utils.Constants;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AtmServiceImpl implements AtmService {
+    Map<Integer, BankAtm> atmTable = new HashMap<Integer, BankAtm> ();
+
+    Map<Integer, List<BankAtm>> atmByBankId = new HashMap<Integer, List<BankAtm>>();
+
     @Override
     public BankAtm create(Bank refBank, BankOffice locate, Employee employee, AtmStatus status,
                           Boolean isCashIssue, Boolean isCashDeposit, BigDecimal maintenanceCost) {
@@ -20,6 +28,11 @@ public class AtmServiceImpl implements AtmService {
                 status, isCashIssue, isCashDeposit, locate.getMoney(), maintenanceCost);
         String name = "Банкомат офиса "+ locate.getName() + " с id - " + newBankAtm.getId();
         newBankAtm.setName(name);
+        atmTable.put(newBankAtm.getId(), newBankAtm);
+        if (atmByBankId.get(refBank.getId()) == null) {
+            atmByBankId.put(refBank.getId(), new ArrayList<BankAtm>());
+        }
+        atmByBankId.get(refBank.getId()).add(newBankAtm);
         return newBankAtm;
     }
 

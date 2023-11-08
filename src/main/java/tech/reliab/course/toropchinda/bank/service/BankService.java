@@ -12,6 +12,9 @@ public interface BankService {
     Bank create(String name);
 
     List<Bank> getAllBanks();
+    List<BankOffice> getOffices(Integer bankId);
+
+    List<User> getUsers(Integer bankId);
     Map<Integer, Bank> getMap();
 
     /**
