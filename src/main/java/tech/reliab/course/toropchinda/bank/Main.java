@@ -21,7 +21,7 @@ public class Main {
         BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
         EmployeeService employeeService = new EmployeeServiceImpl();
         UserService userService = new UserServiceImpl();
-        BankService bankService = new BankServiceImpl(bankOfficeService, userService);
+        BankService bankService = new BankServiceImpl();
         AtmService atmService = new AtmServiceImpl();
         PaymentAccountService paymentAccountService = new PaymentAccountServiceImpl();
         CreditAccountService creditAccountService = new CreditAccountServiceImpl();
@@ -43,6 +43,7 @@ public class Main {
                         (Constants.NUMBER_POSITIONS * Utils.rand())), banksArray.get(i / 3), Boolean.TRUE, office, Boolean.TRUE,
                         BigDecimal.valueOf(10000));
                 bankService.addEmployee(banksArray.get(i / 3), employee);
+                bankOfficeService.addWorker(office, employee);
             }
             List<Employee> lst = employeeService.getWorkerList(banksArray.get(i / Constants.NUMBER_ATMS).getId());
             BankAtm atm = atmService.create(banksArray.get(i / Constants.NUMBER_ATMS), office,
@@ -85,37 +86,36 @@ public class Main {
                 }
             }
         }
-        List<BankOffice> lstOffices = bankOfficeService.getAll();
+
         while (true) {
             System.out.print("Вас приветствует программа банкинга\n");
-            System.out.print("Для того, чтобы получить информацию по банку введите bank <id>\n");
-            System.out.print("Для того, чтобы получить всю информацию о клиенте введите user <id>\n");
-            System.out.print("Для того, чтобы получить всю информацию введите all\n");
+            System.out.print("Для того, чтобы получить информацию по банку введите \"банк <id>\"\n");
+            System.out.print("Для того, чтобы получить всю информацию о клиенте введите \"пользователь <id>\"\n");
+            System.out.print("Для того, чтобы получить всю информацию введите \"все\"\n");
             System.out.print("->");
             Scanner in = new Scanner(System.in);
             String command = in.next();
             switch (command) {
-                case ("bank"):
+                case ("банк"):
                     Integer bankId = in.nextInt();
-                    Map<Integer, Bank> map = bankService.getMap();
-                    Bank bank = map.get(bankId);
+                    Bank bank = bankService.getBank(bankId);
                     System.out.print(bank);
                     break;
-                case ("user"):
+                case ("пользователь"):
                     Integer userId = in.nextInt();
-                    System.out.print(userService.getMap().get(userId));
+                    System.out.print(userService.getUserByHisId(userId));
                     break;
-                case("all"):
+                case("все"):
                     for (int i = 0; i < Constants.NUMBER_BANKS; i++) {
                         System.out.print(lstBanks.get(i));
 
                         for (int j = 0; j < Constants.NUMBER_OFFICES; j++) {
-                            System.out.print(bankService.getOffices(i).get(j));
+                            System.out.print(bankService.getLstOffices(lstBanks.get(j)));
                             System.out.print(employeeService.getWorkerList(i));
 
                         }
                         for (int j = 0; j < Constants.NUMBER_USERS; j++) {
-                            List<User> lst = bankService.getUsers(i);
+                            List<User> lst = bankService.getLstUsers(lstBanks.get(i));
                             for (User item : lst) {
                                 System.out.print(item);
                                 System.out.print("Денежные счета: ");

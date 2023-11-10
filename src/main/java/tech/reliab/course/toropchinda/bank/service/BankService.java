@@ -11,11 +11,13 @@ public interface BankService {
      * @return возвращает созданный банк */
     Bank create(String name);
 
-    List<Bank> getAllBanks();
-    List<BankOffice> getOffices(Integer bankId);
+    List<BankOffice> getLstOffices(Bank bank);
 
-    List<User> getUsers(Integer bankId);
-    Map<Integer, Bank> getMap();
+    List<User> getLstUsers(Bank bank);
+
+    Bank getBank(Integer id);
+
+    List<Bank> getAllBanks();
 
     /**
      * Добавляет офис банку

@@ -107,11 +107,11 @@ public class CreditAccount {
                 "Айди кредитного счета: " + this.id + "\n" +
                 "Владелец счета: " + this.user.getFullName() + "\n" +
                 "Банк счета: " + this.nameBank + "\n" +
-                "Дата открытия счета: " + this.dateStart + "\n" +
-                "Дата закрытия счета: " + this.dateFinish + "\n" +
+                "Дата открытия счета: " +  this.dateStart.getDate() + "."  + (this.dateStart.getMonth() + 1) + "."+ (this.dateStart.getYear() + 1900) +"\n" +
+                "Дата закрытия счета: " + this.dateFinish.getDate() + "."  + (this.dateFinish.getMonth() + 1) + "."+ (this.dateFinish.getYear() + 1900) +"\n" +
                 "Число месяцев на которое взят кредит: " + this.months + "\n" +
                 "Сумма кредита: " + String.format("%.2f",this.sum) + "\n" +
-                "Ежемесячный платеж: " + this.everyMonthPay + "\n" +
+                "Ежемесячный платеж: " + String.format("%.2f", this.everyMonthPay) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", this.interestRate) + "\n" +
                 "Работник выдавший кредит: " + employee.getFullName() + "\n" +
                 "Айди счета пользователя для оплаты: " + paymentAccount.getId() + "\n" +

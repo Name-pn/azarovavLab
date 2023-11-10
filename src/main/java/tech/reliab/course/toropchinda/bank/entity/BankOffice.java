@@ -1,6 +1,8 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BankOffice {
     private static Integer idCurrent = 0;
@@ -15,6 +17,17 @@ public class BankOffice {
     private Boolean getMoney;
     private BigDecimal money;
     private BigDecimal rentalPrice;
+
+    List<Employee> lstEmployees = new ArrayList<Employee>();
+    List<BankAtm> lstBankAtm = new ArrayList<BankAtm>();
+
+    public List<BankAtm> getLstBankAtm() {
+        return lstBankAtm;
+    }
+
+    public List<Employee> getLstEmployees() {
+        return lstEmployees;
+    }
 
     public BigDecimal getMoney() {
         return money;
@@ -118,8 +131,8 @@ public class BankOffice {
                 "Выдача кредитов: " + this.giveCredit + "\n" +
                 "Выдача денег работает: " + this.giveMoney + "\n" +
                 "Внесение денег работает: " + this.getMoney + "\n" +
-                "Количество денег в банковском офисе: " + this.money + "\n" +
-                "Аренда офиса: " + this.rentalPrice + "\n" +
+                "Количество денег в банковском офисе: " + String.format("%.2f", this.money) + "\n" +
+                "Аренда офиса: " + String.format("%.2f", this.rentalPrice) + "\n" +
                 "---------------------------------------------\n";
 
     }

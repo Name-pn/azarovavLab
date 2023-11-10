@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class PaymentAccount {
     private static Integer idCurrent = 0;
-    private Integer id;
-    private User user;
-    private Bank bank;
+    private final Integer id;
+    private final User user;
+    private final Bank bank;
     private BigDecimal sum;
 
     public Bank getBank() {
@@ -47,7 +47,7 @@ public class PaymentAccount {
                 "Айди счета: " + id + "\n" +
                 "Владелец: " + user.getFullName() + "\n" +
                 "Банк: " + bank.getName() + "\n" +
-                "Сумма на счете: " + sum + "\n" +
+                "Сумма на счете: " + String.format("%.2f", sum) + "\n" +
                 "----------------------------------\n";
     }
 }

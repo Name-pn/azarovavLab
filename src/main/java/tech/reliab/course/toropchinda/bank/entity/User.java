@@ -81,9 +81,9 @@ public class User {
         String res = "Объект: пользователь\n" + "++++++++++++++++++++++++++++++++++++++\n" +
                 "Айди пользователя: " + id + "\n" +
                 "Имя пользователя: " + fullName + "\n" +
-                "День рождения: " + birthday + "\n" +
+                "День рождения: " + this.birthday.getDate() + "."  + (this.birthday.getMonth() + 1) + "."+ (this.birthday.getYear() + 1900) + "\n" +
                 "Место работы: " + work + "\n" +
-                "Зарплата: " + salary + "\n" +
+                "Зарплата: " + String.format("%.2f", salary) + "\n" +
                 "Кредитный рейтинг: " + rating + "\n";
         res += "Пользуется банками: \n";
         for (int i = 0; i < banks.size(); i++) {

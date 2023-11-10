@@ -11,42 +11,33 @@ import java.util.List;
 import java.util.Map;
 
 public class BankServiceImpl implements BankService {
-    private final Map<Integer, Bank> banksTable = new HashMap<>();
-    private final Map<Integer, List<User>> usersByBankIdTable = new HashMap<>();
-    private final Map<Integer, List<BankOffice>> officesByBankIdTable = new HashMap<>();
-    private BankOfficeService bankOfficeService;
-    private UserService userService;
 
+    Map<Integer, Bank> mapBanks = new HashMap<Integer, Bank>();
     @Override
-    public List<BankOffice> getOffices(Integer bankId) {
-        return officesByBankIdTable.get(bankId);
+    public List<User> getLstUsers(Bank bank) {
+        return bank.getLstUsers();
     }
 
     @Override
-    public List<User> getUsers(Integer bankId) {
-        return usersByBankIdTable.get(bankId);
-    }
-
-    @Override
-    public Map<Integer, Bank> getMap() {
-        return banksTable;
-    }
-
-    @Override
-    public List<Bank> getAllBanks() {
-        return new ArrayList<Bank>(this.banksTable.values());
-    }
-
-    public BankServiceImpl (BankOfficeService bankOfficeService, UserService userService) {
-        this.bankOfficeService = bankOfficeService;
-        this.userService = userService;
+    public List<BankOffice> getLstOffices(Bank bank) {
+        return new ArrayList<BankOffice>(bank.getLstOffices());
     }
 
     @Override
     public Bank create(String name) {
         Bank varBank = new Bank(name);
-        banksTable.put(varBank.getId(), varBank);
+        mapBanks.put(varBank.getId(), varBank);
         return varBank;
+    }
+
+    @Override
+    public Bank getBank(Integer id) {
+        return mapBanks.get(id);
+    }
+
+    @Override
+    public List<Bank> getAllBanks() {
+        return new ArrayList<Bank>(mapBanks.values());
     }
 
     @Override
@@ -61,12 +52,11 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean addClient(Bank bank, User user) {
         if (bank != null && user != null) {
-            if (usersByBankIdTable.get(bank.getId()) == null) {
-                usersByBankIdTable.put(bank.getId(), new ArrayList<>());
+            Boolean res = bank.getLstUsers().add(user);
+            if (res) {
+                bank.setNumberClients(bank.getNumberClients() + 1);
             }
-            usersByBankIdTable.get(bank.getId()).add(user);
-            bank.setNumberClients(bank.getNumberClients() + 1);
-            return true;
+            return res;
         }
         return false;
     }
@@ -83,11 +73,8 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean addOffice(Bank bank, BankOffice bankOffice) {
         if (bank != null && bankOffice != null) {
-            if (officesByBankIdTable.get(bank.getId()) == null) {
-                officesByBankIdTable.put(bank.getId(), new ArrayList<BankOffice>());
-            }
-            officesByBankIdTable.get(bank.getId()).add(bankOffice);
             bank.setNumberOffices(bank.getNumberOffices() + 1);
+            bank.getLstOffices().add(bankOffice);
             return true;
         }
         return false;
@@ -108,12 +95,11 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean deleteClient(Bank bank, User user) {
         if (bank != null && user != null) {
-            if (bank.getNumberClients() > 0) {
-                usersByBankIdTable.get(bank.getId()).remove(user);
+            Boolean res = bank.getLstUsers().remove(user);
+            if (res) {
                 bank.setNumberClients(bank.getNumberClients() - 1);
-                return true;
             }
-            return false;
+            return res;
         }
         return false;
     }
@@ -134,7 +120,6 @@ public class BankServiceImpl implements BankService {
     public Boolean deleteOffice(Bank bank, BankOffice bankOffice) {
         if (bank != null && bankOffice != null) {
             if (bank.getNumberOffices() > 0) {
-                officesByBankIdTable.get(bank.getId()).remove(bankOffice);
                 bank.setNumberOffices(bank.getNumberOffices() - 1);
                 return true;
             }

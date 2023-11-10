@@ -96,13 +96,13 @@ public class Employee {
         return "Объект: работник\n" + "++++++++++++++++++++++++++++++++++++++\n" +
                 "ФИО работника: " + fullName + "\n" +
                 "Айди работника: " + id + "\n" +
-                "День рождения: " + birthday + "\n" +
+                "День рождения: " + this.birthday.getDate() + "."  + (this.birthday.getMonth() + 1) + "."+ (this.birthday.getYear() + 1900) + "\n" +
                 "Должность: " + position + "\n" +
                 "Банк: " + bank.getName() + "\n" +
                 "Работает удаленно: " + remoteWork + "\n" +
                 "Офис: " + office.getName() + "\n" +
                 "Работник выдает кредиты: " + creditPossibility + "\n" +
-                "Зарплата: " + salary + "\n" +
+                "Зарплата: " + String.format("%.2f", salary) + "\n" +
                 "-----------------------------------\n";
     }
 }

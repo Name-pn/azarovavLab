@@ -3,6 +3,7 @@ package tech.reliab.course.toropchinda.bank.service.impl;
 import tech.reliab.course.toropchinda.bank.entity.Bank;
 import tech.reliab.course.toropchinda.bank.entity.BankAtm;
 import tech.reliab.course.toropchinda.bank.entity.BankOffice;
+import tech.reliab.course.toropchinda.bank.entity.Employee;
 import tech.reliab.course.toropchinda.bank.service.BankOfficeService;
 import tech.reliab.course.toropchinda.bank.utils.Constants;
 
@@ -13,11 +14,51 @@ import java.util.List;
 import java.util.Map;
 
 public class BankOfficeServiceImpl implements BankOfficeService {
-    Map<Integer, BankOffice> offices = new HashMap<>();
 
     @Override
-    public List<BankOffice> getAll() {
-        return new ArrayList<BankOffice> (offices.values());
+    public List<Employee> getWorkers(BankOffice bankOffice) {
+        return bankOffice.getLstEmployees();
+    }
+    @Override
+    public List<BankAtm> getAtms(BankOffice bankOffice) {
+        return bankOffice.getLstBankAtm();
+    }
+
+    @Override
+    public Boolean addWorker(BankOffice bankOffice, Employee employee) {
+        if (bankOffice != null && employee !=null) {
+            return bankOffice.getLstEmployees().add(employee);
+        }
+        return false;
+    }
+    @Override
+    public Boolean deleteWorker(BankOffice bankOffice, Employee employee) {
+        if (bankOffice != null && employee !=null) {
+            return bankOffice.getLstEmployees().remove(employee);
+        }
+        return false;
+    }
+    @Override
+    public Boolean addAtm(BankOffice bankOffice, BankAtm atm) {
+        if (bankOffice != null && atm !=null) {
+            Boolean res = bankOffice.getLstBankAtm().add(atm);
+            if (res) {
+                bankOffice.setNumberAtm(bankOffice.getNumberAtm() + 1);
+            }
+            return res;
+        }
+        return false;
+    }
+    @Override
+    public Boolean deleteAtm(BankOffice bankOffice, BankAtm atm) {
+        if (bankOffice != null && atm !=null) {
+            Boolean res = bankOffice.getLstBankAtm().add(atm);
+            if (res) {
+                bankOffice.setNumberAtm(bankOffice.getNumberAtm() - 1);
+            }
+            return res;
+        }
+        return false;
     }
 
     @Override
@@ -25,34 +66,13 @@ public class BankOfficeServiceImpl implements BankOfficeService {
                              Boolean permissionAtm, Integer numberAtm, Boolean isCreditPermission, Boolean isCashIssue,
                              Boolean isCashDeposit, BigDecimal money, BigDecimal rentalPrice
     ) {
-        String[] wordsAddress = address.split(" ");
-        String name = "Офис " + wordsAddress[0] + " " + wordsAddress[1] + " №";
+//        String[] wordsAddress = address.split(" ");
+        String name = "Офис " + address + " №";
         BankOffice newBankOffice = new BankOffice(name, address, isWork,
                 permissionAtm, numberAtm, isCreditPermission, isCashIssue,
                 isCashDeposit, money, rentalPrice);
         newBankOffice.setName(name + String.valueOf(newBankOffice.getId()));
-        offices.put(newBankOffice.getId(), newBankOffice);
         return newBankOffice;
-    }
-
-    @Override
-    public Boolean addAtm(BankOffice bankOffice, BankAtm bankAtm) {
-        if (bankOffice != null && bankAtm != null) {
-            bankOffice.setNumberAtm(bankOffice.getNumberAtm() + 1);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public Boolean deleteAtm(BankOffice bankOffice, BankAtm bankAtm) {
-        if (bankOffice != null && bankAtm != null) {
-            if (bankOffice.getNumberAtm() > 0) {
-                bankOffice.setNumberAtm(bankOffice.getNumberAtm() - 1);
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

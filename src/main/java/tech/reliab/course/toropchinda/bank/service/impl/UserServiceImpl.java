@@ -7,17 +7,20 @@ import tech.reliab.course.toropchinda.bank.entity.User;
 import tech.reliab.course.toropchinda.bank.service.UserService;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserServiceImpl implements UserService {
 
-    Map<Integer, User> tableUsers = new HashMap<>();
+    Map<Integer, User> tableUsers = new HashMap<Integer, User>();
 
     @Override
-    public Map<Integer, User> getMap() {
-        return tableUsers;
+    public User getUserByHisId(Integer id) {
+        return tableUsers.get(id);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return new ArrayList<User>(tableUsers.values());
     }
 
     @Override
