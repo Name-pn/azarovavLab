@@ -84,7 +84,7 @@ public class User {
                 "День рождения: " + this.birthday.getDate() + "."  + (this.birthday.getMonth() + 1) + "."+ (this.birthday.getYear() + 1900) + "\n" +
                 "Место работы: " + work + "\n" +
                 "Зарплата: " + String.format("%.2f", salary) + "\n" +
-                "Кредитный рейтинг: " + rating + "\n";
+                "Кредитный рейтинг: " + String.format("%.2f", rating) + "\n";
         res += "Пользуется банками: \n";
         for (int i = 0; i < banks.size(); i++) {
             res += "Название: " + banks.get(i).getName() + "\n";

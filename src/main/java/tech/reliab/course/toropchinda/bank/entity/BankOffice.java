@@ -1,5 +1,7 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import tech.reliab.course.toropchinda.bank.utils.Utils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,12 +127,12 @@ public class BankOffice {
                 "Название офиса: " + this.name + "\n" +
                 "Айди: " + this.id + "\n" +
                 "Адрес офиса: " + this.address + "\n" +
-                "Офис работает: " + this.work + "\n" +
-                "В офисе разрешено размещение банкоматов: " + this.permissionAtm + "\n" +
+                "Офис работает: " + Utils.logic(this.work) + "\n" +
+                "В офисе разрешено размещение банкоматов: " + Utils.logic(this.permissionAtm) + "\n" +
                 "Число банкоматов в офисе: " + this.numberAtm + "\n" +
-                "Выдача кредитов: " + this.giveCredit + "\n" +
-                "Выдача денег работает: " + this.giveMoney + "\n" +
-                "Внесение денег работает: " + this.getMoney + "\n" +
+                "Выдача кредитов: " + Utils.logic(this.giveCredit) + "\n" +
+                "Выдача денег работает: " + Utils.logic(this.giveMoney) + "\n" +
+                "Внесение денег работает: " + Utils.logic(this.getMoney) + "\n" +
                 "Количество денег в банковском офисе: " + String.format("%.2f", this.money) + "\n" +
                 "Аренда офиса: " + String.format("%.2f", this.rentalPrice) + "\n" +
                 "---------------------------------------------\n";

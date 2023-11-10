@@ -120,9 +120,9 @@ public class Bank {
                 "Число банкоматов: " + this.numberAtms + "\n" +
                 "Число работников: " + this.numberEmployees + "\n" +
                 "Число клиентов: " + this.numberClients + "\n" +
-                "Рейтинг: " + this.rating + "\n" +
+                "Рейтинг: " + String.format("%.2f", BigDecimal.valueOf(this.rating)) + "\n" +
                 "Деньги банка: " + String.format("%.2f", BigDecimal.valueOf(this.money)) + "\n" +
-                "Процентная ставка: " + this.interestRate + '\n' +
+                "Процентная ставка: " + String.format("%.2f", this.interestRate) + '\n' +
                 "------------------------------------------------\n";
     }
 }

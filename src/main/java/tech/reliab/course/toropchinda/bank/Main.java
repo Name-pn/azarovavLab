@@ -92,6 +92,7 @@ public class Main {
             System.out.print("Для того, чтобы получить информацию по банку введите \"банк <id>\"\n");
             System.out.print("Для того, чтобы получить всю информацию о клиенте введите \"пользователь <id>\"\n");
             System.out.print("Для того, чтобы получить всю информацию введите \"все\"\n");
+            System.out.print("Для того, чтобы завершить программу введите \"завершить\"\n");
             System.out.print("->");
             Scanner in = new Scanner(System.in);
             String command = in.next();
@@ -110,9 +111,12 @@ public class Main {
                         System.out.print(lstBanks.get(i));
 
                         for (int j = 0; j < Constants.NUMBER_OFFICES; j++) {
-                            System.out.print(bankService.getLstOffices(lstBanks.get(j)));
+                            List<BankOffice> lstOffices = bankService.getLstOffices(lstBanks.get(j));
+                            System.out.print(lstOffices);
                             System.out.print(employeeService.getWorkerList(i));
-
+                            for (BankOffice office : lstOffices) {
+                                System.out.print(bankOfficeService.getAtms(office));
+                            }
                         }
                         for (int j = 0; j < Constants.NUMBER_USERS; j++) {
                             List<User> lst = bankService.getLstUsers(lstBanks.get(i));
@@ -129,6 +133,8 @@ public class Main {
 
                     }
                     break;
+                case ("завершить"):
+                    return;
                 default:
                     System.out.print("Не корректный ввод\n");
                     break;

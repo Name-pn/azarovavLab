@@ -2,6 +2,7 @@ package tech.reliab.course.toropchinda.bank.entity;
 
 import tech.reliab.course.toropchinda.bank.service.AtmService;
 import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
+import tech.reliab.course.toropchinda.bank.utils.Utils;
 
 import java.math.BigDecimal;
 
@@ -106,13 +107,13 @@ public class BankAtm {
     public String statusToString() {
         switch (this.status) {
             case WORK : {
-                return "Работает";
+                return "работает";
             }
             case NEED_FIX: {
-                return "Поломан";
+                return "поломан";
             }
             case WAIT_MONEY: {
-                return "Закончились деньги";
+                return "закончились деньги";
             }
         }
         return "Ошибка определения статуса\n";
@@ -127,8 +128,8 @@ public class BankAtm {
                 "Связан с банком: " + this.bank.getName() + "\n" +
                 "Закреплен за офисом: " + this.locate.getName() + "\n" +
                 "Закреплен за работником: " + this.employee.getFullName() + "\n" +
-                "Работает ли выдача наличных: " + this.giveWork + "\n" +
-                "Работает ли внесение наличных: " + this.getWork + "\n" +
+                "Работает ли выдача наличных: " + Utils.logic(this.giveWork) + "\n" +
+                "Работает ли внесение наличных: " + Utils.logic(this.getWork) + "\n" +
                 "Количество денег в банкомате: " + this.money + "\n" +
                 "Стоимость обслуживания: " + String.format("%.2f", this.maintenanceCost) + "\n" +
                 "-------------------------------------------------------\n";

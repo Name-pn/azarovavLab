@@ -1,5 +1,7 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import tech.reliab.course.toropchinda.bank.utils.Utils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -99,9 +101,9 @@ public class Employee {
                 "День рождения: " + this.birthday.getDate() + "."  + (this.birthday.getMonth() + 1) + "."+ (this.birthday.getYear() + 1900) + "\n" +
                 "Должность: " + position + "\n" +
                 "Банк: " + bank.getName() + "\n" +
-                "Работает удаленно: " + remoteWork + "\n" +
+                "Работает удаленно: " + Utils.logic(remoteWork) + "\n" +
                 "Офис: " + office.getName() + "\n" +
-                "Работник выдает кредиты: " + creditPossibility + "\n" +
+                "Работник выдает кредиты: " + Utils.logic(creditPossibility) + "\n" +
                 "Зарплата: " + String.format("%.2f", salary) + "\n" +
                 "-----------------------------------\n";
     }
