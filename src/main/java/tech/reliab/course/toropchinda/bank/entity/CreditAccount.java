@@ -13,8 +13,8 @@ public class CreditAccount {
     private Date dateFinish;
     private Integer months;
     private BigDecimal sum;
-    private Integer everyMonthPay;
-    private Double interestRate;
+    private BigDecimal everyMonthPay;
+    private BigDecimal interestRate;
     private Employee employee;
     private PaymentAccount paymentAccount;
 
@@ -30,11 +30,11 @@ public class CreditAccount {
         return dateStart;
     }
 
-    public Integer getEveryMonthPay() {
+    public BigDecimal getEveryMonthPay() {
         return everyMonthPay;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
@@ -62,12 +62,12 @@ public class CreditAccount {
         this.paymentAccount = paymentAccount;
     }
 
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
     public CreditAccount(Integer id, User user, String nameBank, Date dateStart, Date dateFinish,
-                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
+                         BigDecimal sum, BigDecimal everyMonthPay, BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = id;
         this.user = user;
         this.nameBank = nameBank;
@@ -84,11 +84,11 @@ public class CreditAccount {
 
     }
 
-    public CreditAccount(User user, Bank bank, Date dateStart, Date dateFinish,
-                         BigDecimal sum, Integer everyMonthPay, Double interestRate, Employee employee, PaymentAccount paymentAccount) {
+    public CreditAccount(User user, String nameBank, Date dateStart, Date dateFinish,
+                         BigDecimal sum, BigDecimal everyMonthPay, BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
         this.id = idCurrent++;
         this.user = user;
-        this.nameBank = bank.getName();
+        this.nameBank = nameBank;
         this.dateStart = dateStart;
         this.dateFinish = dateFinish;
         long elapsedms = dateFinish.getTime() - dateStart.getTime();
@@ -107,15 +107,15 @@ public class CreditAccount {
                 "Айди кредитного счета: " + this.id + "\n" +
                 "Владелец счета: " + this.user.getFullName() + "\n" +
                 "Банк счета: " + this.nameBank + "\n" +
-                "Дата открытия счета: " + this.dateStart + "\n" +
-                "Дата закрытия счета: " + this.dateFinish + "\n" +
+                "Дата открытия счета: " +  this.dateStart.getDate() + "."  + (this.dateStart.getMonth() + 1) + "."+ (this.dateStart.getYear() + 1900) +"\n" +
+                "Дата закрытия счета: " + this.dateFinish.getDate() + "."  + (this.dateFinish.getMonth() + 1) + "."+ (this.dateFinish.getYear() + 1900) +"\n" +
                 "Число месяцев на которое взят кредит: " + this.months + "\n" +
                 "Сумма кредита: " + String.format("%.2f",this.sum) + "\n" +
-                "Ежемесячный платеж: " + this.everyMonthPay + "\n" +
+                "Ежемесячный платеж: " + String.format("%.2f", this.everyMonthPay) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", this.interestRate) + "\n" +
                 "Работник выдавший кредит: " + employee.getFullName() + "\n" +
                 "Айди счета пользователя для оплаты: " + paymentAccount.getId() + "\n" +
-                "-----------------------------------------------------------------";
+                "-----------------------------------------------------------------\n";
 
     }
 

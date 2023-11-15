@@ -6,7 +6,23 @@ import tech.reliab.course.toropchinda.bank.entity.PaymentAccount;
 import tech.reliab.course.toropchinda.bank.entity.User;
 import tech.reliab.course.toropchinda.bank.service.UserService;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 public class UserServiceImpl implements UserService {
+
+    Map<Integer, User> tableUsers = new HashMap<Integer, User>();
+
+    @Override
+    public User getUserByHisId(Integer id) {
+        return tableUsers.get(id);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return new ArrayList<User>(tableUsers.values());
+    }
+
     @Override
     public Boolean addBank(User user, Bank bank) {
         if (user != null && bank != null) {
@@ -17,9 +33,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
-        User newUser = new User(user.getId(), user.getFullName(), user.getBirthday(), user.getWork(), user.getSalary(),
-                user.getRating());
+    public User create(String fullName, Date birthday, String work, BigDecimal salary, BigDecimal rating) {
+        User newUser = new User(fullName, birthday, work, salary,
+                rating);
+        tableUsers.put(newUser.getId(), newUser);
         return newUser;
     }
 

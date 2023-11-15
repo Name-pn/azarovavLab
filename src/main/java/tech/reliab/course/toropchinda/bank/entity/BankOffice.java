@@ -1,5 +1,11 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import tech.reliab.course.toropchinda.bank.utils.Utils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BankOffice {
     private static Integer idCurrent = 0;
     private Integer id;
@@ -11,10 +17,21 @@ public class BankOffice {
     private Boolean giveCredit;
     private Boolean giveMoney;
     private Boolean getMoney;
-    private Integer money;
-    private Integer rentalPrice;
+    private BigDecimal money;
+    private BigDecimal rentalPrice;
 
-    public Integer getMoney() {
+    List<Employee> lstEmployees = new ArrayList<Employee>();
+    List<BankAtm> lstBankAtm = new ArrayList<BankAtm>();
+
+    public List<BankAtm> getLstBankAtm() {
+        return lstBankAtm;
+    }
+
+    public List<Employee> getLstEmployees() {
+        return lstEmployees;
+    }
+
+    public BigDecimal getMoney() {
         return money;
     }
 
@@ -22,7 +39,7 @@ public class BankOffice {
         return id;
     }
 
-    public Boolean getGetMoney() {
+    public Boolean getIsCashDeposit() {
         return getMoney;
     }
 
@@ -46,7 +63,7 @@ public class BankOffice {
         return numberAtm;
     }
 
-    public Integer getRentalPrice() {
+    public BigDecimal getRentalPrice() {
         return rentalPrice;
     }
 
@@ -56,7 +73,7 @@ public class BankOffice {
 
     public BankOffice(Integer id, String name, String address, Boolean work, Boolean permissionAtm,
                       Integer numberAtm, Boolean giveCredit, Boolean giveMoney,
-                      Boolean getMoney, Integer money, Integer rentalPrice) {
+                      Boolean getMoney, BigDecimal money, BigDecimal rentalPrice) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -71,17 +88,17 @@ public class BankOffice {
 
     }
 
-    public void setRentalPrice(Integer rentalPrice) {
+    public void setRentalPrice(BigDecimal rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 
     public BankOffice(String name, String address, Boolean work, Boolean permissionAtm,
                       Integer numberAtm, Boolean giveCredit, Boolean giveMoney,
-                      Boolean getMoney, Integer money, Integer rentalPrice) {
+                      Boolean getMoney, BigDecimal money, BigDecimal rentalPrice) {
         this.id = idCurrent++;
         this.name = name;
         this.address = address;
@@ -96,6 +113,10 @@ public class BankOffice {
 
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -106,14 +127,14 @@ public class BankOffice {
                 "Название офиса: " + this.name + "\n" +
                 "Айди: " + this.id + "\n" +
                 "Адрес офиса: " + this.address + "\n" +
-                "Офис работает: " + this.work + "\n" +
-                "В офисе разрешено размещение банкоматов: " + this.permissionAtm + "\n" +
+                "Офис работает: " + Utils.logic(this.work) + "\n" +
+                "В офисе разрешено размещение банкоматов: " + Utils.logic(this.permissionAtm) + "\n" +
                 "Число банкоматов в офисе: " + this.numberAtm + "\n" +
-                "Выдача кредитов: " + this.giveCredit + "\n" +
-                "Выдача денег работает: " + this.giveMoney + "\n" +
-                "Внесение денег работает: " + this.getMoney + "\n" +
-                "Количество денег в банковском офисе: " + this.money + "\n" +
-                "Аренда офиса: " + this.rentalPrice + "\n" +
+                "Выдача кредитов: " + Utils.logic(this.giveCredit) + "\n" +
+                "Выдача денег работает: " + Utils.logic(this.giveMoney) + "\n" +
+                "Внесение денег работает: " + Utils.logic(this.getMoney) + "\n" +
+                "Количество денег в банковском офисе: " + String.format("%.2f", this.money) + "\n" +
+                "Аренда офиса: " + String.format("%.2f", this.rentalPrice) + "\n" +
                 "---------------------------------------------\n";
 
     }

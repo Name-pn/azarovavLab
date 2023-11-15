@@ -2,6 +2,9 @@ package tech.reliab.course.toropchinda.bank.entity;
 
 import tech.reliab.course.toropchinda.bank.service.AtmService;
 import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
+import tech.reliab.course.toropchinda.bank.utils.Utils;
+
+import java.math.BigDecimal;
 
 
 public class BankAtm {
@@ -15,11 +18,11 @@ public class BankAtm {
     private Employee employee;
     private Boolean giveWork;
     private Boolean getWork;
-    private Integer money;
-    private Integer maintenanceCost;
+    private BigDecimal money;
+    private BigDecimal maintenanceCost;
 
     public BankAtm(Integer id, Bank bank, BankOffice bankOffice, Employee employee, String name, AtmStatus status, Boolean giveWork, Boolean getWork,
-                   Integer money, Integer maintenanceCost) {
+                   BigDecimal money, BigDecimal maintenanceCost) {
         this.id = id;
         this.name = name;
         this.address = bankOffice.getAddress();
@@ -34,7 +37,7 @@ public class BankAtm {
     }
 
     public BankAtm(Bank bank, BankOffice bankOffice, Employee employee, String name, AtmStatus status, Boolean giveWork, Boolean getWork,
-                   Integer money, Integer maintenanceCost) {
+                   BigDecimal money, BigDecimal maintenanceCost) {
         id = idCurrent++;
         this.name = name;
         this.address = bankOffice.getAddress();
@@ -48,7 +51,12 @@ public class BankAtm {
         this.maintenanceCost = maintenanceCost;
     }
 
-    public void setMaintenanceCost(Integer maintenanceCost) {
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMaintenanceCost(BigDecimal maintenanceCost) {
         this.maintenanceCost = maintenanceCost;
     }
 
@@ -84,7 +92,7 @@ public class BankAtm {
         return employee;
     }
 
-    public Integer getMaintenanceCost() {
+    public BigDecimal getMaintenanceCost() {
         return maintenanceCost;
     }
 
@@ -99,13 +107,13 @@ public class BankAtm {
     public String statusToString() {
         switch (this.status) {
             case WORK : {
-                return "Работает";
+                return "работает";
             }
             case NEED_FIX: {
-                return "Поломан";
+                return "поломан";
             }
             case WAIT_MONEY: {
-                return "Закончились деньги";
+                return "закончились деньги";
             }
         }
         return "Ошибка определения статуса\n";
@@ -120,10 +128,10 @@ public class BankAtm {
                 "Связан с банком: " + this.bank.getName() + "\n" +
                 "Закреплен за офисом: " + this.locate.getName() + "\n" +
                 "Закреплен за работником: " + this.employee.getFullName() + "\n" +
-                "Работает ли выдача наличных: " + this.giveWork + "\n" +
-                "Работает ли внесение наличных: " + this.getWork + "\n" +
+                "Работает ли выдача наличных: " + Utils.logic(this.giveWork) + "\n" +
+                "Работает ли внесение наличных: " + Utils.logic(this.getWork) + "\n" +
                 "Количество денег в банкомате: " + this.money + "\n" +
-                "Стоимость обслуживания: " + this.maintenanceCost + "\n" +
+                "Стоимость обслуживания: " + String.format("%.2f", this.maintenanceCost) + "\n" +
                 "-------------------------------------------------------\n";
 
 
@@ -133,11 +141,11 @@ public class BankAtm {
         this.status = status;
     }
 
-    public Integer getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 }

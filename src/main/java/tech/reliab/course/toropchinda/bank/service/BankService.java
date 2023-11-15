@@ -2,11 +2,22 @@ package tech.reliab.course.toropchinda.bank.service;
 
 import tech.reliab.course.toropchinda.bank.entity.*;
 
+import java.util.List;
+import java.util.Map;
+
 public interface BankService {
     /** Создание банка
-     * @param bank - банк
+     * @param name - банк
      * @return возвращает созданный банк */
-    Bank create(Bank bank);
+    Bank create(String name);
+
+    List<BankOffice> getLstOffices(Bank bank);
+
+    List<User> getLstUsers(Bank bank);
+
+    Bank getBank(Integer id);
+
+    List<Bank> getAllBanks();
 
     /**
      * Добавляет офис банку

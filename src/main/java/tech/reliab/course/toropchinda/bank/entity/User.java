@@ -1,5 +1,6 @@
 package tech.reliab.course.toropchinda.bank.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,11 +10,11 @@ public class User {
     private String fullName;
     private Date birthday;
     private String work;
-    private Integer salary;
+    private BigDecimal salary;
+    private BigDecimal rating;
     private ArrayList<Bank> banks;
     private ArrayList<CreditAccount> creditAccounts;
     private ArrayList<PaymentAccount> paymentAccounts;
-    private Integer rating;
 
     public ArrayList<Bank> getBanks() {
         return banks;
@@ -31,7 +32,7 @@ public class User {
         return birthday;
     }
 
-    public Integer getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
@@ -39,7 +40,7 @@ public class User {
         return id;
     }
 
-    public Integer getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
@@ -47,7 +48,7 @@ public class User {
         return work;
     }
 
-    public User(Integer id, String fullName, Date birthday, String work, Integer salary, Integer rating) {
+    public User(Integer id, String fullName, Date birthday, String work, BigDecimal salary, BigDecimal rating) {
         this.id = id;
         this.fullName = fullName;
         this.birthday = birthday;
@@ -59,7 +60,7 @@ public class User {
         this.paymentAccounts = new ArrayList<PaymentAccount>();
     }
 
-    public User(String fullName, Date birthday, String work, Integer salary, Integer rating) {
+    public User(String fullName, Date birthday, String work, BigDecimal salary, BigDecimal rating) {
         id = idCurrent++;
         this.fullName = fullName;
         this.birthday = birthday;
@@ -80,10 +81,10 @@ public class User {
         String res = "Объект: пользователь\n" + "++++++++++++++++++++++++++++++++++++++\n" +
                 "Айди пользователя: " + id + "\n" +
                 "Имя пользователя: " + fullName + "\n" +
-                "День рождения: " + birthday + "\n" +
+                "День рождения: " + this.birthday.getDate() + "."  + (this.birthday.getMonth() + 1) + "."+ (this.birthday.getYear() + 1900) + "\n" +
                 "Место работы: " + work + "\n" +
-                "Зарплата: " + salary + "\n" +
-                "Кредитный рейтинг: " + rating + "\n";
+                "Зарплата: " + String.format("%.2f", salary) + "\n" +
+                "Кредитный рейтинг: " + String.format("%.2f", rating) + "\n";
         res += "Пользуется банками: \n";
         for (int i = 0; i < banks.size(); i++) {
             res += "Название: " + banks.get(i).getName() + "\n";

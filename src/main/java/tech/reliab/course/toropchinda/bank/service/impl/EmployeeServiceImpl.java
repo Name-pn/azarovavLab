@@ -5,16 +5,36 @@ import tech.reliab.course.toropchinda.bank.entity.BankOffice;
 import tech.reliab.course.toropchinda.bank.entity.Employee;
 import tech.reliab.course.toropchinda.bank.service.EmployeeService;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 public class EmployeeServiceImpl implements EmployeeService {
+
+    Map<Integer, Employee> employeeTable = new HashMap<>();
+
+    Map<Integer, List<Employee>> employeeByBankId = new HashMap<>();
+
     @Override
-    public Employee create(Employee employee) {
-        Employee newEmployee = new Employee(employee.getId(), employee.getFullName(), employee.getBirthday(), employee.getPosition(),
-                employee.getBank(), employee.getRemoteWork(), employee.getOffice(), employee.getGiveCredit(), employee.getSalary());
+    public List<Employee> getWorkerList(Integer id) {
+        return employeeByBankId.get(id);
+    }
+
+    @Override
+    public Employee create(String fullName, Date birthday, String position, Bank bank, Boolean remoteWork,
+                           BankOffice bankOffice, Boolean creditPossibility, BigDecimal salary) {
+        Employee newEmployee = new Employee(fullName, birthday, position,
+                bank, remoteWork, bankOffice, creditPossibility, salary);
+        employeeTable.put(newEmployee.getId(), newEmployee);
+        if (employeeByBankId.get(bank.getId()) == null) {
+            employeeByBankId.put(bank.getId(), new ArrayList<Employee>());
+        }
+        employeeByBankId.get(bank.getId()).add(newEmployee);
+
         return newEmployee;
     }
 
     @Override
-    public Boolean updateWork(Employee employee, BankOffice bankOffice, Bank bank, String position, Integer salary) {
+    public Boolean updateWork(Employee employee, BankOffice bankOffice, Bank bank, String position, BigDecimal salary) {
         if (employee != null && bankOffice != null && bank != null && position != null && salary != null) {
             employee.setBank(bank);
             employee.setPosition(position);
@@ -23,5 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Employee> getAll() {
+        return new ArrayList<Employee>(employeeTable.values());
     }
 }

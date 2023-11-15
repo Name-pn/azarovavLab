@@ -1,24 +1,45 @@
 package tech.reliab.course.toropchinda.bank.service.impl;
 
 import tech.reliab.course.toropchinda.bank.Main;
+import tech.reliab.course.toropchinda.bank.entity.Bank;
 import tech.reliab.course.toropchinda.bank.entity.BankAtm;
 import tech.reliab.course.toropchinda.bank.entity.BankOffice;
+import tech.reliab.course.toropchinda.bank.entity.Employee;
 import tech.reliab.course.toropchinda.bank.service.AtmService;
 import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
 import tech.reliab.course.toropchinda.bank.utils.Constants;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AtmServiceImpl implements AtmService {
+    Map<Integer, BankAtm> atmTable = new HashMap<Integer, BankAtm> ();
+
+    Map<Integer, List<BankAtm>> atmByBankId = new HashMap<Integer, List<BankAtm>>();
+
     @Override
-    public BankAtm create(BankAtm bankAtm) {
-        BankAtm newBankAtm = new BankAtm(bankAtm.getId(), bankAtm.getBank(), bankAtm.getLocate(), bankAtm.getEmployee(), bankAtm.getName(),
-                bankAtm.getStatus(), bankAtm.getGiveWork(), bankAtm.getGetWork(), bankAtm.getMoney(), bankAtm.getMaintenanceCost());
+    public BankAtm create(Bank refBank, BankOffice locate, Employee employee, AtmStatus status,
+                          Boolean isCashIssue, Boolean isCashDeposit, BigDecimal maintenanceCost) {
+
+        BankAtm newBankAtm = new BankAtm(refBank, locate, employee, "Неопределено",
+                status, isCashIssue, isCashDeposit, locate.getMoney(), maintenanceCost);
+        String name = "Банкомат офиса "+ locate.getName() + " с id - " + newBankAtm.getId();
+        newBankAtm.setName(name);
+        atmTable.put(newBankAtm.getId(), newBankAtm);
+        if (atmByBankId.get(refBank.getId()) == null) {
+            atmByBankId.put(refBank.getId(), new ArrayList<BankAtm>());
+        }
+        atmByBankId.get(refBank.getId()).add(newBankAtm);
         return newBankAtm;
     }
 
     @Override
     public Boolean updateChangeMoney(BankAtm bankAtm) {
         if (bankAtm != null) {
-            bankAtm.setMoney((int)(bankAtm.getLocate().getMoney() * Math.random()));
+            bankAtm.setMoney(BigDecimal.valueOf(bankAtm.getLocate().getMoney().doubleValue() * Math.random()));
             return true;
         }
         return false;
@@ -45,7 +66,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public Boolean updateRandMaintenceCost(BankAtm bankAtm) {
         if (bankAtm != null) {
-            bankAtm.setMaintenanceCost((int)(Constants.MAINTENANCE_COST_OF_ATM * Math.random()));
+            bankAtm.setMaintenanceCost(BigDecimal.valueOf(Constants.MAINTENANCE_COST_OF_ATM * Math.random()));
             return true;
         }
         return false;

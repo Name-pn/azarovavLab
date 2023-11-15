@@ -2,6 +2,9 @@ package tech.reliab.course.toropchinda.bank.entity;
 
 import tech.reliab.course.toropchinda.bank.Main;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Bank {
@@ -15,6 +18,29 @@ public class Bank {
     private Integer rating;
     private Integer money;
     private Double interestRate;
+    private List<BankOffice> lstOffices = new ArrayList<BankOffice>();
+
+    private List<User> lstUsers = new ArrayList<User>();
+
+    public List<User> getLstUsers() {
+        return lstUsers;
+    }
+
+    public List<BankOffice> getLstOffices() {
+        return lstOffices;
+    }
+
+    public Bank(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+        this.numberOffices = 0;
+        this.numberAtms = 0;
+        this.numberEmployees = 0;
+        this.numberClients = 0;
+        this.rating = (int) (Math.random() * 101);
+        this.money = (int) (Math.random() * 1000000);
+        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+    }
 
     public Bank(String name) {
         this.id = idCurrent++;
@@ -26,6 +52,10 @@ public class Bank {
         this.rating = (int) (Math.random() * 101);
         this.money = (int) (Math.random() * 1000000);
         this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Integer getMoney() {
@@ -78,16 +108,21 @@ public class Bank {
 
     @Override
     public String toString() {
+        String officesStr = "Офисы по названиям и id \n";
+        for (BankOffice office : this.getLstOffices()) {
+            officesStr += "Название офиса = " + office.getName() + "\nид = " + office.getId().toString() + "\n";
+        }
         return "Объект: банк\n" + "++++++++++++++++++++++++++++++++++++++\n" +
                 "Название банка: " + this.name + "\n" +
                 "Айди банка: " + this.id + "\n" +
                 "Число офисов: " + this.numberOffices + "\n" +
+                officesStr +
                 "Число банкоматов: " + this.numberAtms + "\n" +
                 "Число работников: " + this.numberEmployees + "\n" +
                 "Число клиентов: " + this.numberClients + "\n" +
-                "Рейтинг: " + this.rating + "\n" +
-                "Деньги банка: " + this.money + "\n" +
-                "Процентная ставка: " + this.interestRate + '\n' +
+                "Рейтинг: " + String.format("%.2f", BigDecimal.valueOf(this.rating)) + "\n" +
+                "Деньги банка: " + String.format("%.2f", BigDecimal.valueOf(this.money)) + "\n" +
+                "Процентная ставка: " + String.format("%.2f", this.interestRate) + '\n' +
                 "------------------------------------------------\n";
     }
 }

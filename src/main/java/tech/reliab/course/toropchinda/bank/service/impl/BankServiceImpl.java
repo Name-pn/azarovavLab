@@ -1,12 +1,43 @@
 package tech.reliab.course.toropchinda.bank.service.impl;
 
 import tech.reliab.course.toropchinda.bank.entity.*;
+import tech.reliab.course.toropchinda.bank.service.BankOfficeService;
 import tech.reliab.course.toropchinda.bank.service.BankService;
+import tech.reliab.course.toropchinda.bank.service.UserService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BankServiceImpl implements BankService {
+
+    Map<Integer, Bank> mapBanks = new HashMap<Integer, Bank>();
     @Override
-    public Bank create(Bank bank) {
-        return new Bank(bank.getName());
+    public List<User> getLstUsers(Bank bank) {
+        return bank.getLstUsers();
+    }
+
+    @Override
+    public List<BankOffice> getLstOffices(Bank bank) {
+        return new ArrayList<BankOffice>(bank.getLstOffices());
+    }
+
+    @Override
+    public Bank create(String name) {
+        Bank varBank = new Bank(name);
+        mapBanks.put(varBank.getId(), varBank);
+        return varBank;
+    }
+
+    @Override
+    public Bank getBank(Integer id) {
+        return mapBanks.get(id);
+    }
+
+    @Override
+    public List<Bank> getAllBanks() {
+        return new ArrayList<Bank>(mapBanks.values());
     }
 
     @Override
@@ -21,8 +52,11 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean addClient(Bank bank, User user) {
         if (bank != null && user != null) {
-            bank.setNumberClients(bank.getNumberClients() + 1);
-            return true;
+            Boolean res = bank.getLstUsers().add(user);
+            if (res) {
+                bank.setNumberClients(bank.getNumberClients() + 1);
+            }
+            return res;
         }
         return false;
     }
@@ -40,6 +74,7 @@ public class BankServiceImpl implements BankService {
     public Boolean addOffice(Bank bank, BankOffice bankOffice) {
         if (bank != null && bankOffice != null) {
             bank.setNumberOffices(bank.getNumberOffices() + 1);
+            bank.getLstOffices().add(bankOffice);
             return true;
         }
         return false;
@@ -60,11 +95,11 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean deleteClient(Bank bank, User user) {
         if (bank != null && user != null) {
-            if (bank.getNumberClients() > 0) {
+            Boolean res = bank.getLstUsers().remove(user);
+            if (res) {
                 bank.setNumberClients(bank.getNumberClients() - 1);
-                return true;
             }
-            return false;
+            return res;
         }
         return false;
     }
