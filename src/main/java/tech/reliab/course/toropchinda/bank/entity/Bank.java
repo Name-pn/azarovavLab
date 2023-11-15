@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Bank {
+public class Bank implements Comparable<Bank>{
+
+    @Override
+    public int compareTo(Bank o) {
+        int sum1 = (int) (this.getNumberAtms()*10+this.getNumberEmployees()*5+this.getNumberOffices()*20+(100/this.getInterestRate()));
+        int sum2 = (int) (o.getNumberAtms()*10+o.getNumberEmployees()*5+o.getNumberOffices()*20 + (100/o.getInterestRate()));
+        return sum1 - sum2;
+    }
+
     static private Integer idCurrent = 0;
     private Integer id;
     private String name;
@@ -51,7 +59,7 @@ public class Bank {
         this.numberClients = 0;
         this.rating = (int) (Math.random() * 101);
         this.money = (int) (Math.random() * 1000000);
-        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100) + 0.1;
     }
 
     public Integer getId() {
@@ -123,6 +131,7 @@ public class Bank {
                 "Рейтинг: " + String.format("%.2f", BigDecimal.valueOf(this.rating)) + "\n" +
                 "Деньги банка: " + String.format("%.2f", BigDecimal.valueOf(this.money)) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", this.interestRate) + '\n' +
-                "------------------------------------------------\n";
+                "\nПривлекательность " + String.valueOf(this.getNumberAtms() * 10 + this.getNumberEmployees() * 5 + this.getNumberOffices() * 20 + (100 / this.getInterestRate()))
+                +"\n------------------------------------------------\n";
     }
 }

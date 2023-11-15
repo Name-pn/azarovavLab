@@ -18,6 +18,10 @@ public class Utils {
         return new Date(ms);
     }
 
+    public static Date shift(Date d) {
+        return new Date(d.getTime() + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000)));
+    }
+
     public static double rand() {
         return rnd.nextDouble();
     }

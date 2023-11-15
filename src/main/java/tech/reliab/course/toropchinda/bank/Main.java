@@ -1,6 +1,7 @@
 package tech.reliab.course.toropchinda.bank;
 
 import tech.reliab.course.toropchinda.bank.entity.*;
+import tech.reliab.course.toropchinda.bank.exceptions.NegativeCreditSum;
 import tech.reliab.course.toropchinda.bank.service.BankOfficeService;
 import tech.reliab.course.toropchinda.bank.service.*;
 import tech.reliab.course.toropchinda.bank.service.impl.*;
@@ -61,7 +62,7 @@ public class Main {
                         Utils.randomDate(),
                         Constants.POSITIONS.get((int)(Constants.NUMBER_POSITIONS * Utils.rand())),
                         BigDecimal.valueOf(Constants.SALARY_PATTERN*Utils.rand()),
-                        BigDecimal.valueOf(0));
+                        BigDecimal.valueOf(Constants.RATING_PATTERN * Utils.rand()));
                 bankService.addClient(lstBanks.get(i), user);
                 userService.addBank(user, lstBanks.get(i));
 
@@ -91,20 +92,32 @@ public class Main {
             System.out.print("Вас приветствует программа банкинга\n");
             System.out.print("Для того, чтобы получить информацию по банку введите \"банк <id>\"\n");
             System.out.print("Для того, чтобы получить всю информацию о клиенте введите \"пользователь <id>\"\n");
+            System.out.print("Для того, чтобы попробовать выдать кредит введите \"кредит <id> <sum>\"\n");
             System.out.print("Для того, чтобы получить всю информацию введите \"все\"\n");
             System.out.print("Для того, чтобы завершить программу введите \"завершить\"\n");
             System.out.print("->");
             Scanner in = new Scanner(System.in);
-            String command = in.next();
+            String command = in.next().toLowerCase();
+            Integer userId;
+            Bank bank;
             switch (command) {
                 case ("банк"):
                     Integer bankId = in.nextInt();
-                    Bank bank = bankService.getBank(bankId);
+                    bank = bankService.getBank(bankId);
                     System.out.print(bank);
                     break;
                 case ("пользователь"):
-                    Integer userId = in.nextInt();
+                    userId = in.nextInt();
                     System.out.print(userService.getUserByHisId(userId));
+                    break;
+                case("кредит"):
+                    userId = in.nextInt();
+                    BigDecimal sum = in.nextBigDecimal();
+                    try {
+                        userService.takeCredit(userService, bankService, bankOfficeService, paymentAccountService, creditAccountService, userId, sum);
+                    } catch (NegativeCreditSum e) {
+                        System.out.print(e);
+                    }
                     break;
                 case("все"):
                     for (int i = 0; i < Constants.NUMBER_BANKS; i++) {
