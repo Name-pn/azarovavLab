@@ -11,8 +11,8 @@ public class Bank implements Comparable<Bank>{
 
     @Override
     public int compareTo(Bank o) {
-        int sum1 = (int) (this.getNumberAtms()*10+this.getNumberEmployees()*5+this.getNumberOffices()*20+(100/this.getInterestRate()));
-        int sum2 = (int) (o.getNumberAtms()*10+o.getNumberEmployees()*5+o.getNumberOffices()*20 + (100/o.getInterestRate()));
+        int sum1 = (int) (this.getNumberAtms()*10+this.getNumberEmployees()*5+this.getNumberOffices()*20+(100/this.getInterestRate().doubleValue()));
+        int sum2 = (int) (o.getNumberAtms()*10+o.getNumberEmployees()*5+o.getNumberOffices()*20 + (100/o.getInterestRate().doubleValue()));
         return sum1 - sum2;
     }
 
@@ -23,9 +23,9 @@ public class Bank implements Comparable<Bank>{
     private Integer numberAtms;
     private Integer numberEmployees;
     private Integer numberClients;
-    private Integer rating;
-    private Integer money;
-    private Double interestRate;
+    private BigDecimal rating;
+    private BigDecimal money;
+    private BigDecimal interestRate;
     private List<BankOffice> lstOffices = new ArrayList<BankOffice>();
 
     private List<User> lstUsers = new ArrayList<User>();
@@ -45,9 +45,9 @@ public class Bank implements Comparable<Bank>{
         this.numberAtms = 0;
         this.numberEmployees = 0;
         this.numberClients = 0;
-        this.rating = (int) (Math.random() * 101);
-        this.money = (int) (Math.random() * 1000000);
-        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100);
+        this.rating = BigDecimal.valueOf(Math.random() * 101);
+        this.money = BigDecimal.valueOf(Math.random() * 1000000);
+        this.interestRate = BigDecimal.valueOf(((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100));
     }
 
     public Bank(String name) {
@@ -57,20 +57,20 @@ public class Bank implements Comparable<Bank>{
         this.numberAtms = 0;
         this.numberEmployees = 0;
         this.numberClients = 0;
-        this.rating = (int) (Math.random() * 101);
-        this.money = (int) (Math.random() * 1000000);
-        this.interestRate = ((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100) + 0.1;
+        this.rating = BigDecimal.valueOf(Math.random() * 101);
+        this.money = BigDecimal.valueOf(Math.random() * 1000000);
+        this.interestRate = BigDecimal.valueOf(((int)(Math.random() * 21)) * (1 - this.rating.doubleValue() / 100) + 0.1);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 
@@ -78,7 +78,7 @@ public class Bank implements Comparable<Bank>{
         return name;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
@@ -128,10 +128,10 @@ public class Bank implements Comparable<Bank>{
                 "Число банкоматов: " + this.numberAtms + "\n" +
                 "Число работников: " + this.numberEmployees + "\n" +
                 "Число клиентов: " + this.numberClients + "\n" +
-                "Рейтинг: " + String.format("%.2f", BigDecimal.valueOf(this.rating)) + "\n" +
-                "Деньги банка: " + String.format("%.2f", BigDecimal.valueOf(this.money)) + "\n" +
+                "Рейтинг: " + String.format("%.2f", this.rating) + "\n" +
+                "Деньги банка: " + String.format("%.2f", this.money) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", this.interestRate) + '\n' +
-                "\nПривлекательность " + String.valueOf(this.getNumberAtms() * 10 + this.getNumberEmployees() * 5 + this.getNumberOffices() * 20 + (100 / this.getInterestRate()))
+                "\nПривлекательность " + String.valueOf(this.getNumberAtms() * 10 + this.getNumberEmployees() * 5 + this.getNumberOffices() * 20 + (100 / this.getInterestRate().doubleValue()))
                 +"\n------------------------------------------------\n";
     }
 }

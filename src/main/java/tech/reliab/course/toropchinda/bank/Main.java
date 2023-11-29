@@ -16,8 +16,6 @@ import java.util.*;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        new Constants();
-        new Utils();
 
         BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
         EmployeeService employeeService = new EmployeeServiceImpl();
@@ -33,16 +31,22 @@ public class Main {
 
         List<Bank> banksArray = bankService.getAllBanks();
         for (int i = 0; i < Constants.NUMBER_OFFICES*Constants.NUMBER_BANKS; i++) {
-            BankOffice office = bankOfficeService.create(Constants.OFFICE_ADDRESS.get(i), Boolean.TRUE, Boolean.TRUE,
-                    0, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, BigDecimal.valueOf(Constants.RENTAL_OFFICE_MAX_PRICE),
-                    BigDecimal.valueOf(banksArray.get(i / Constants.NUMBER_OFFICES).getMoney() / Constants.NUMBER_OFFICES));
+            BankOffice office = bankOfficeService.create(Constants.OFFICE_ADDRESS.get(i),
+                    Boolean.TRUE,
+                    Boolean.TRUE,
+                    0,
+                    Boolean.TRUE,
+                    Boolean.TRUE,
+                    Boolean.TRUE,
+                    BigDecimal.valueOf(banksArray.get(i / Constants.NUMBER_OFFICES).getMoney().doubleValue() / Constants.NUMBER_OFFICES),
+                    BigDecimal.valueOf(Constants.RENTAL_OFFICE_MAX_PRICE * Utils.rand()));
             bankService.addOffice(banksArray.get(i / Constants.NUMBER_OFFICES), office);
 
             for (int j = 0; j < Constants.NUMBER_EMPLOYEES_IN_OFFICE; j++) {
                 Employee employee = employeeService.create(Constants.FULLNAMES.get((int)
                         (Utils.rand() * Constants.NUMBER_FULLNAMES)), Utils.randomDate(), Constants.POSITIONS.get((int)
                         (Constants.NUMBER_POSITIONS * Utils.rand())), banksArray.get(i / 3), Boolean.TRUE, office, Boolean.TRUE,
-                        BigDecimal.valueOf(10000));
+                        BigDecimal.valueOf(Constants.SALARY_PATTERN * Utils.rand()));
                 bankService.addEmployee(banksArray.get(i / 3), employee);
                 bankOfficeService.addWorker(office, employee);
             }

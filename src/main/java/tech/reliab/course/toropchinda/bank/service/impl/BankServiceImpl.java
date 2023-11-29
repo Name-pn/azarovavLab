@@ -5,6 +5,7 @@ import tech.reliab.course.toropchinda.bank.service.BankOfficeService;
 import tech.reliab.course.toropchinda.bank.service.BankService;
 import tech.reliab.course.toropchinda.bank.service.UserService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,7 +132,7 @@ public class BankServiceImpl implements BankService {
     @Override
     public Boolean putMoney(Bank bank, Integer sum) {
         if (bank != null && sum != null) {
-            bank.setMoney(bank.getMoney() + sum);
+            bank.setMoney(BigDecimal.valueOf(bank.getMoney().doubleValue() + sum));
             return true;
         }
         return false;

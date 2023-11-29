@@ -78,7 +78,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     @Override
     public Boolean updateAllMoney(BankOffice bankOffice, Bank bank) {
         if (bankOffice != null && bank != null) {
-            bankOffice.setMoney(BigDecimal.valueOf(bank.getMoney()));
+            bankOffice.setMoney(BigDecimal.valueOf(bank.getMoney().doubleValue()));
             return true;
         }
         return false;
