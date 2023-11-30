@@ -2,6 +2,9 @@ package tech.reliab.course.toropchinda.bank.service;
 
 import tech.reliab.course.toropchinda.bank.entity.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -12,10 +15,28 @@ public interface UserService {
 
     public List<User> getUsers();
 
-    public Boolean takeCredit(UserService userService, BankService bankService, BankOfficeService bankOfficeService,
+
+    public Boolean readAccountFromTxt(UserService userService,
+                                      BankService bankService,
+                                      Integer userId,
+                                      Integer bankId,
+                                      String file,
+                                      CreditAccountService creditAccountService,
+                                      PaymentAccountService paymentAccountService,
+                                      EmployeeService employeeService) throws FileNotFoundException, UnsupportedEncodingException;
+    public Boolean writeAccountIntoTxt(UserService userService,
+                                       BankService bankService,
+                                       Integer userId,
+                                       Integer bankId,
+                                       String file) throws IOException;
+
+    public Boolean takeCredit(UserService userService,
+                              BankService bankService,
+                              BankOfficeService bankOfficeService,
                               PaymentAccountService paymentAccountService,
                               CreditAccountService creditAccountService,
-                              Integer userId, BigDecimal sum);
+                              Integer userId,
+                              BigDecimal sum);
 
     public Bank chooseBestBank(BankService bankService, BigDecimal sum);
 

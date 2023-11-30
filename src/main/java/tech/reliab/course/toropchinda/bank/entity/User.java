@@ -3,6 +3,8 @@ package tech.reliab.course.toropchinda.bank.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class User {
     private static Integer idCurrent = 0;
@@ -21,11 +23,32 @@ public class User {
     }
 
     public ArrayList<CreditAccount> getCreditAccounts() {
+
         return creditAccounts;
+    }
+
+    public List<CreditAccount> getCreditAccountsFilterOfBank(Bank bank) {
+        List<CreditAccount> res = new ArrayList<CreditAccount>();
+        for (CreditAccount el : creditAccounts) {
+            if (Objects.equals(el.getNameBank(), bank.getName())) {
+                res.add(el);
+            }
+        }
+        return res;
     }
 
     public ArrayList<PaymentAccount> getPaymentAccounts() {
         return paymentAccounts;
+    }
+
+    public List<PaymentAccount> getPaymentAccountsFilterOfBank(Bank bank) {
+        List<PaymentAccount> res = new ArrayList<PaymentAccount>();
+        for (PaymentAccount el : paymentAccounts) {
+            if (el.getBank() == bank) {
+                res.add(el);
+            }
+        }
+        return res;
     }
 
     public Date getBirthday() {

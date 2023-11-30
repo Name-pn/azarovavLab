@@ -4,12 +4,192 @@ import tech.reliab.course.toropchinda.bank.entity.*;
 import tech.reliab.course.toropchinda.bank.exceptions.*;
 import tech.reliab.course.toropchinda.bank.service.*;
 import tech.reliab.course.toropchinda.bank.utils.Utils;
+
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
+
+
 
 public class UserServiceImpl implements UserService {
 
     Map<Integer, User> tableUsers = new HashMap<Integer, User>();
+
+
+    public void createPayment(Scanner in, UserService userService, PaymentAccountService paymentAccountService,
+    User user, Bank bank) throws IOException {
+        String data;
+        for (int i = 0; i < 4; i++) {
+             data = in.nextLine();
+        }
+        for (int i = 0; i < 3; i++) {
+            data = in.next();
+        }
+        Double varDouble = in.nextDouble();
+        userService.addBank(user, bank);
+        PaymentAccount account = paymentAccountService.create(user, bank, BigDecimal.valueOf(varDouble));
+        userService.addPaymentAccount(user, account);
+        data = in.nextLine();
+        data = in.nextLine();
+    }
+
+    public Employee findEmployee(List<Employee> lst, String name) {
+        for (Employee employee : lst) {
+            if (employee.getFullName().equals(name))
+                return employee;
+        }
+        return null;
+    }
+
+    public void createCredit(Scanner in,
+                             UserService userService,
+                             CreditAccountService creditAccountService,
+                             PaymentAccountService paymentAccountService,
+                             EmployeeService employeeService,
+                             User user,
+                             Bank bank) {
+        String data;
+        for (int i = 0; i < 4; i++) {
+            data = in.nextLine();
+        }
+        for (int i = 0; i < 3; i++) {
+            data = in.next();
+        }
+        Integer day, month, year;
+        String str;
+//        in.useDelimiter(".");
+        str = in.next();
+        String[] array = str.split("\\.");
+        day = Integer.parseInt(array[0]);
+        month = Integer.parseInt(array[1]);
+        year = Integer.parseInt(array[2]);
+//        in.useDelimiter("\n");
+        Calendar openCalendar = new GregorianCalendar(year, month, day);
+        Date open = openCalendar.getTime();
+
+        for (int i = 0; i < 3; i++) {
+            data = in.next();
+        }
+//        in.useDelimiter(".");
+        str = in.next();
+        array = str.split("\\.");
+        day = Integer.parseInt(array[0]);
+        month = Integer.parseInt(array[1]);
+        year = Integer.parseInt(array[2]);
+//        in.useDelimiter("\n");
+        Calendar closeCalendar = new GregorianCalendar(year, month, day);
+        Date close = closeCalendar.getTime();
+
+        String during = in.nextLine();
+        during = in.nextLine();
+        str = in.next();
+        str = in.next();
+        Double sum = in.nextDouble();
+        str = in.next();
+        str = in.next();
+        Double payment = in.nextDouble();
+        str = in.next();
+        str = in.next();
+        Double interestRate = in.nextDouble();
+        str = in.nextLine();
+        String worker = in.nextLine();
+        array = worker.split(" ");
+        worker = array[3] + " " + array[4];
+        List<PaymentAccount> lst = user.getPaymentAccountsFilterOfBank(bank);
+        PaymentAccount paymentAccount;
+        if (lst.size() == 0) {
+            userService.addBank(user, bank);
+            paymentAccount = paymentAccountService.create(user, bank, BigDecimal.ZERO);
+            userService.addPaymentAccount(user, paymentAccount);
+            lst.add(paymentAccount);
+        } else {
+            paymentAccount = lst.get(0);
+        }
+        List<Employee>employeeLst = employeeService.getAll();
+        Employee employee = findEmployee(employeeLst, worker);
+        CreditAccount crAccount = creditAccountService.create(user, bank.getName(), open, close,
+                BigDecimal.valueOf(sum), BigDecimal.valueOf(payment),
+                BigDecimal.valueOf(interestRate), employee, paymentAccount);
+        userService.addCreditAccount(user, crAccount);
+        str = in.nextLine();
+        str = in.nextLine();
+    }
+
+    Boolean readObject(Scanner in,
+                       CreditAccountService creditAccountService,
+                       PaymentAccountService paymentAccountService,
+                       EmployeeService employeeService,
+                       User user,
+                       UserService userService,
+                       Bank bank) throws IOException {
+        String res = in.nextLine();
+        if (res.isEmpty())
+            return false;
+        else if (res.equals("Объект: денежный счет"))
+            this.createPayment(in, userService, paymentAccountService, user, bank);
+        else if (res.equals("Объект: кредитный счет"))
+            this.createCredit(in, userService, creditAccountService,
+                    paymentAccountService, employeeService, user, bank);
+        return true;
+    }
+
+    @Override
+    public Boolean readAccountFromTxt(UserService userService, BankService bankService,
+                                      Integer userId, Integer bankId, String file,
+                                      CreditAccountService creditAccountService,
+                                      PaymentAccountService paymentAccountService,
+                                      EmployeeService employeeService) throws FileNotFoundException {
+        if (userService == null || bankService == null)
+            return false;
+        User user = userService.getUserByHisId(userId);
+        Bank bank = bankService.getBank(bankId);
+
+        File varFile = new File(file);
+        Scanner sc = new Scanner(varFile);
+        Boolean flag = true;
+        try {
+            while (flag) {
+                flag = this.readObject(sc, creditAccountService, paymentAccountService, employeeService, user,
+                        userService, bank);
+            }
+        } catch (NoSuchElementException e) {
+            System.out.print("Чтение закончено по причине достижения конца файла\n");
+        }
+        catch (RuntimeException e) {
+            System.out.print(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public Boolean writeAccountIntoTxt(UserService userService, BankService bankService, Integer userId, Integer bankId, String file) throws IOException {
+        if (userService == null || bankService == null)
+            return false;
+        User user = userService.getUserByHisId(userId);
+        Bank bank = bankService.getBank(bankId);
+
+        List<PaymentAccount> lstAccounts = user.getPaymentAccountsFilterOfBank(bank);
+        List<CreditAccount> lstCredit = user.getCreditAccountsFilterOfBank(bank);
+
+        if (lstAccounts.size() == 0 && lstCredit.size() == 0)
+            return false;
+        OutputStream outputStream = new FileOutputStream(file);
+        Writer outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+
+        for (PaymentAccount account: lstAccounts) {
+            outputStreamWriter.write(account.toString());
+        }
+        for (CreditAccount account: lstCredit) {
+            outputStreamWriter.write(account.toString());
+        }
+        outputStreamWriter.close();
+
+        return true;
+    }
 
     @Override
     public Bank chooseBestBank(BankService bankService, BigDecimal sum) {
@@ -172,8 +352,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean addBank(User user, Bank bank) {
         if (user != null && bank != null) {
-            user.getBanks().add(bank);
-            return true;
+            if (!user.getBanks().contains(bank)) {
+                user.getBanks().add(bank);
+                return true;
+            }
         }
         return false;
     }
@@ -189,8 +371,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean addCreditAccount(User user, CreditAccount creditAccount) {
         if (user != null && creditAccount != null) {
-            user.getCreditAccounts().add(creditAccount);
-            return true;
+            if (!user.getCreditAccounts().contains(creditAccount)) {
+                user.getCreditAccounts().add(creditAccount);
+                return true;
+            }
         }
         return false;
     }
@@ -198,8 +382,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean addPaymentAccount(User user, PaymentAccount paymentAccount) {
         if (user != null && paymentAccount != null) {
-            user.getPaymentAccounts().add(paymentAccount);
-            return true;
+            if (!user.getPaymentAccounts().contains(paymentAccount)) {
+                user.getPaymentAccounts().add(paymentAccount);
+                return true;
+            }
         }
         return false;
     }

@@ -9,6 +9,9 @@ import tech.reliab.course.toropchinda.bank.utils.AtmStatus;
 import tech.reliab.course.toropchinda.bank.utils.Constants;
 import tech.reliab.course.toropchinda.bank.utils.Utils;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -99,11 +102,16 @@ public class Main {
             System.out.print("Для того, чтобы попробовать выдать кредит введите \"кредит <id> <sum>\"\n");
             System.out.print("Для того, чтобы получить всю информацию введите \"все\"\n");
             System.out.print("Для того, чтобы завершить программу введите \"завершить\"\n");
+            System.out.print("Для того, чтобы перекинуть счета пользователя в .txt файл введите \"поместить <Ид пользователя>" +
+                    " <Ид банка> в <Путь к файлу>\"\n");
+            System.out.print("Для того, чтобы загрузить счета пользователя в .txt файл введите \"загрузить <Ид пользователя>" +
+                    " <Ид банка> из <Путь к файлу>\"\n");
             System.out.print("->");
             Scanner in = new Scanner(System.in);
             String command = in.next().toLowerCase();
             Integer userId;
             Bank bank;
+            String str;
             switch (command) {
                 case ("банк"):
                     Integer bankId = in.nextInt();
@@ -152,6 +160,31 @@ public class Main {
                     break;
                 case ("завершить"):
                     return;
+                case ("поместить"):
+                    userId = in.nextInt();
+                    bankId = in.nextInt();
+                    str = in.next();
+                    String file = in.next();
+                    try {
+                        userService.writeAccountIntoTxt(userService, bankService, userId, bankId, file);
+                    } catch (IOException e) {
+                        System.out.print(e);
+                    }
+                    break;
+                case ("загрузить"):
+                    userId = in.nextInt();
+                    bankId = in.nextInt();
+                    str = in.next();
+                    file = in.next();
+                    try {
+                        userService.readAccountFromTxt(userService, bankService, userId, bankId, file, creditAccountService,
+                                paymentAccountService, employeeService);
+                    } catch (FileNotFoundException e) {
+                        System.out.print(e);
+                    } catch (UnsupportedEncodingException e) {
+                        System.out.print(e);
+                    }
+                    break;
                 default:
                     System.out.print("Не корректный ввод\n");
                     break;
